@@ -22,7 +22,7 @@ public class CodeSnippetService {
 	@Autowired
 	private SequenceRepository sequenceRepository;
 
-	public Flux<CodeSnippet> findAll(final int page, final int size, String type) {
+	public Flux<CodeSnippet> findAllByType(final int page, final int size, String type) {
 		Flux<CodeSnippet> result = null;
 		if (type != null) {
 			result = repository.findAllByType(PageRequest.of(page, size, new Sort(Direction.DESC, "id")), type);
@@ -34,6 +34,17 @@ public class CodeSnippetService {
 		return result;
 	}
 
+	public Flux<CodeSnippet> findAllByPage(final int page, final int size) {
+		Flux<CodeSnippet> result = null;
+		if (size > 0) {
+			result = repository.findAll(PageRequest.of(page, size, new Sort(Direction.DESC, "id")));
+		} else {
+			result = repository.findAll();
+		}
+		return result;
+	}
+
+	
 	public Mono<CodeSnippet> get(long id) {
 		return repository.findById(id);
 	}

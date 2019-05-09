@@ -19,6 +19,7 @@ class ProfileEndpointConfiguration {
 	@Bean
 	protected RouterFunction<ServerResponse> routes(final PostHandler handler) {
 		return route(GET(ENDPOINT + "/{page}/{size}/{tag}"), handler::all)
+				.andRoute(GET(ENDPOINT + "/{page}/{size}"), handler::findAllByPage)
 				.andRoute(GET(ENDPOINT + "/{id}"), handler::getById)
 				.andRoute(DELETE(ENDPOINT + "/{id}"), handler::deleteById)
 				.andRoute(POST(ENDPOINT), handler::create)

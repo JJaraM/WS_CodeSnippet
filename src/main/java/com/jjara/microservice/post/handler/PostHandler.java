@@ -28,9 +28,12 @@ public class PostHandler {
 	}
 
 	public Mono<ServerResponse> all(ServerRequest r) {
-		return defaultReadResponseList(service.findAll(page(r), size(r), type(r)));
+		return defaultReadResponseList(service.findAllByType(page(r), size(r), type(r)));
 	}
 
+	public Mono<ServerResponse> findAllByPage(ServerRequest r) {
+		return defaultReadResponseList(service.findAllByPage(page(r), size(r)));
+	}
 	public Mono<ServerResponse> deleteById(ServerRequest r) {
 		return ResponseHandler.okNoContent(service.delete(id(r)));
 	}

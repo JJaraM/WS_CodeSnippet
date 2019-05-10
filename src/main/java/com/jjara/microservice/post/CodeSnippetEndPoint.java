@@ -12,9 +12,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-class ProfileEndpointConfiguration {
+class CodeSnippetEndPoint {
 
-	private final static String ENDPOINT = "/codeSnippet";
+	private final static String ENDPOINT = "/v1/codeSnippet";
 	
 	@Bean
 	protected RouterFunction<ServerResponse> routes(final PostHandler handler) {

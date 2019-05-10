@@ -19,8 +19,8 @@ public class PostHandler {
 
 	private final CodeSnippetService service;
 
-	public PostHandler(CodeSnippetService profileService) {
-		this.service = profileService;
+	public PostHandler(CodeSnippetService service) {
+		this.service = service;
 	}
 
 	public Mono<ServerResponse> getById(ServerRequest serverRequest) {		
@@ -48,7 +48,7 @@ public class PostHandler {
 	public Mono<ServerResponse> create(ServerRequest request) {
 		Flux<CodeSnippet> flux = request.bodyToFlux(CodeSnippet.class)
 				.flatMap(data -> this.service.create(data.getTitle(), data.getContent(), data.getType()));
-		return defaultWriteResponse(flux);
+		return ResponseHandler.okNoContent(flux);
 	}
 
 	private static Mono<ServerResponse> defaultWriteResponse(Publisher<CodeSnippet> profiles) {

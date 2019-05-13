@@ -55,7 +55,7 @@ public class CodeSnippetService {
 			codeSnippet.setContent(content);
 			codeSnippet.setType(type);
 			return codeSnippet;
-		});
+		}).flatMap(this.repository::save);
 	}
 
 	public Mono<CodeSnippet> delete(long id) {

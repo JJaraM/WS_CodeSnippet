@@ -1,6 +1,12 @@
 package com.jjara.microservice.post.service;
 
 import lombok.extern.log4j.Log4j2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -69,5 +75,16 @@ public class CodeSnippetService {
 		codeSnippet.setTitle(title);
 		codeSnippet.setType(type);
 		return repository.save(codeSnippet);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Flux<CodeSnippet> findAllLanguages() {
+		List<String> values = (List<String>) this.sequenceRepository.distict("codeSnippet", "type");
+		List<CodeSnippet> list = values.stream().map(type -> {
+			CodeSnippet snippet = new CodeSnippet();
+			snippet.setType(type);
+			return snippet;
+		}).collect(Collectors.toList());
+		return Flux.fromIterable(list);
 	}
 }

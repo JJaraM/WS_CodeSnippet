@@ -15,5 +15,8 @@ public interface CodeSnippetRepository extends ReactiveMongoRepository<CodeSnipp
 
 	@Query("{ type: { $in: [?0] }}")
 	public Flux<CodeSnippet> findAllByType(Pageable page, String type);
+
+	@Query("{ \"distinct\": \"codeSnippet\", \"key\": \"type\",\"query\": {} }")
+	public Flux<CodeSnippet> findDistinctByType();
 	
 }

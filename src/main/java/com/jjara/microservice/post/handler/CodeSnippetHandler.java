@@ -5,21 +5,18 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
 import com.jjara.microservice.post.ResponseHandler;
 import com.jjara.microservice.post.pojo.CodeSnippet;
 import com.jjara.microservice.post.service.CodeSnippetService;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.net.URI;
 
 @Component
-public class PostHandler {
+public class CodeSnippetHandler {
 
 	private final CodeSnippetService service;
 
-	public PostHandler(CodeSnippetService service) {
+	public CodeSnippetHandler(CodeSnippetService service) {
 		this.service = service;
 	}
 
@@ -34,6 +31,11 @@ public class PostHandler {
 	public Mono<ServerResponse> findAllByPage(ServerRequest r) {
 		return defaultReadResponseList(service.findAllByPage(page(r), size(r)));
 	}
+	
+	public Mono<ServerResponse> findAllLanguages(ServerRequest r) {
+		return defaultReadResponseList(service.findAllLanguages());
+	}
+	
 	public Mono<ServerResponse> deleteById(ServerRequest r) {
 		return ResponseHandler.okNoContent(service.delete(id(r)));
 	}
@@ -51,11 +53,6 @@ public class PostHandler {
 		return ResponseHandler.okNoContent(flux);
 	}
 
-	private static Mono<ServerResponse> defaultWriteResponse(Publisher<CodeSnippet> profiles) {
-		return Mono.from(profiles).flatMap(p -> ServerResponse.created(URI.create("/profiles/" + p.getId()))
-				.contentType(MediaType.APPLICATION_JSON_UTF8).build());
-	}
-
 	private static Mono<ServerResponse> defaultReadResponse(Publisher<CodeSnippet> profiles) {
 		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(profiles, CodeSnippet.class);
 	}
@@ -65,6 +62,7 @@ public class PostHandler {
 		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(profiles, CodeSnippet.class);
 	}
 
+	
 	private static Long id(ServerRequest r) {
 		return Long.valueOf(r.pathVariable("id"));
 	}

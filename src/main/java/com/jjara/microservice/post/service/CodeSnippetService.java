@@ -87,4 +87,8 @@ public class CodeSnippetService {
 		}).collect(Collectors.toList());
 		return Flux.fromIterable(list);
 	}
+
+	public Flux<CodeSnippet> findAllByLanguage(String language) {
+		return repository.findAllByType(language);
+	}
 }

@@ -19,4 +19,7 @@ public interface CodeSnippetRepository extends ReactiveMongoRepository<CodeSnipp
 	@Query("{ \"distinct\": \"codeSnippet\", \"key\": \"type\",\"query\": {} }")
 	public Flux<CodeSnippet> findDistinctByType();
 	
+	//@Query("{ type: { $in: [?0] }}")
+	public Flux<CodeSnippet> findAllByType(String type);
+	
 }

@@ -20,6 +20,10 @@ public class CodeSnippetHandler {
 		this.service = service;
 	}
 
+	public Mono<ServerResponse> findAllByLanguage(ServerRequest serverRequest) {		
+		return defaultReadResponseList(service.findAllByLanguage(language(serverRequest)));
+	}
+	
 	public Mono<ServerResponse> getById(ServerRequest serverRequest) {		
 		return ResponseHandler.okNoContent(service.get(id(serverRequest)));
 	}
@@ -77,6 +81,10 @@ public class CodeSnippetHandler {
 	
 	private static String type(ServerRequest r) {
 		return r.pathVariable("tag");
+	}
+	
+	private static String language(ServerRequest r) {
+		return r.pathVariable("language");
 	}
 	
 	private static Integer serverRequestProperty(final ServerRequest r, final String property) {

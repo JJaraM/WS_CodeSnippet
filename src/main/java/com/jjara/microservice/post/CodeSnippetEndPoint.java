@@ -19,6 +19,7 @@ class CodeSnippetEndPoint {
 	@Bean
 	protected RouterFunction<ServerResponse> routes(final CodeSnippetHandler handler) {
 		return route(GET(ENDPOINT + "/{page}/{size}/{tag}"), handler::all)
+				.andRoute(GET(ENDPOINT + "/language/{language}"), handler::findAllByLanguage)
 				.andRoute(GET(ENDPOINT + "/{page}/{size}"), handler::findAllByPage)
 				.andRoute(GET(ENDPOINT + "/allLanguages"), handler::findAllLanguages)
 				.andRoute(GET(ENDPOINT + "/{id}"), handler::getById)
